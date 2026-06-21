@@ -4,28 +4,29 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#f0628f">
 <meta name="apple-mobile-web-app-title" content="MyFit">
 <link rel="apple-touch-icon" href="icon.png">
 <link rel="manifest" href="manifest.json">
 <title>MyFit Program</title>
 <style>
 :root{
-  --bg:#0e0f12; --card:#1a1c21; --card2:#22252b; --accent:#e8543f; --accent2:#3fa9e8;
-  --text:#f2f2f0; --sub:#9a9da5; --good:#4caf6e; --warn:#e8a93f;
+  --bg:#fff5f8; --card:#ffffff; --card2:#fde8ef; --accent:#f0628f; --accent2:#c9a6e8;
+  --text:#4a2d3a; --sub:#b483a0; --good:#8fc9a0; --warn:#f3b66b;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-body{margin:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);padding-bottom:90px;}
-header{padding:max(16px,env(safe-area-inset-top)) 18px 10px;background:var(--bg);position:sticky;top:0;z-index:5;}
-header h1{font-size:22px;margin:6px 0 2px;}
-header p{margin:0;color:var(--sub);font-size:13px;}
+body{margin:0;font-family:'Avenir Next',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);padding-bottom:90px;}
+header{padding:max(16px,env(safe-area-inset-top)) 18px 10px;background:linear-gradient(135deg,#ffd9e6,#f3e0ff);position:sticky;top:0;z-index:5;border-bottom:2px solid var(--card2);}
+header h1{font-size:24px;margin:6px 0 2px;color:#d6457a;font-weight:800;letter-spacing:0.3px;}
+header p{margin:0;color:#a86b8e;font-size:13px;}
 .tabs{display:flex;gap:6px;padding:0 12px 10px;}
 .tab{flex:1;text-align:center;padding:10px 4px;border-radius:10px;font-size:13px;font-weight:600;color:var(--sub);background:var(--card);}
 .tab.active{background:var(--accent);color:#fff;}
 section{display:none;padding:0 16px 20px;}
 section.active{display:block;}
-.card{background:var(--card);border-radius:14px;padding:16px;margin-bottom:12px;}
-.card h2{font-size:15px;margin:0 0 10px;color:var(--sub);text-transform:uppercase;letter-spacing:0.5px;}
+.card{background:var(--card);border-radius:20px;padding:16px;margin-bottom:14px;box-shadow:0 3px 14px rgba(240,98,143,0.12);border:1px solid var(--card2);}
+.card h2{font-size:14px;margin:0 0 10px;color:var(--accent);text-transform:uppercase;letter-spacing:0.6px;font-weight:700;}
 .macro-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
 .macro-name{font-size:14px;color:var(--text);}
 .macro-val{font-size:14px;color:var(--sub);}
@@ -33,24 +34,25 @@ section.active{display:block;}
 .bar > div{height:100%;border-radius:5px;}
 .big-num{font-size:34px;font-weight:700;}
 .row{display:flex;justify-content:space-between;align-items:baseline;}
-.day-pill{display:inline-block;padding:4px 10px;border-radius:20px;background:var(--card2);font-size:12px;color:var(--accent2);margin-bottom:8px;font-weight:600;}
-.exercise{padding:10px 0;border-bottom:1px solid var(--card2);}
+.day-pill{display:inline-block;padding:5px 12px;border-radius:20px;background:linear-gradient(135deg,#f0628f,#c9a6e8);font-size:12px;color:#fff;margin-bottom:8px;font-weight:700;}
+.exercise{padding:12px 0;border-bottom:1px solid var(--card2);}
 .exercise:last-child{border-bottom:none;}
-.exercise .name{font-weight:600;font-size:15px;}
+.exercise .name{font-weight:700;font-size:15px;color:var(--text);}
 .exercise .target{color:var(--sub);font-size:12px;margin-top:2px;}
+.exercise .lasttime{color:var(--accent);font-size:11.5px;margin-top:3px;font-weight:600;}
 .exercise input{width:50px;background:var(--card2);border:none;border-radius:6px;color:var(--text);padding:6px;font-size:13px;text-align:center;margin-right:4px;}
 .exercise .log-row{display:flex;gap:6px;margin-top:6px;align-items:center;}
 .exercise .log-row label{font-size:11px;color:var(--sub);}
-.btn{background:var(--accent);color:#fff;border:none;border-radius:10px;padding:10px 14px;font-weight:600;font-size:14px;width:100%;margin-top:8px;}
-.btn.secondary{background:var(--card2);color:var(--text);}
+.btn{background:linear-gradient(135deg,#f0628f,#e85ba8);color:#fff;border:none;border-radius:14px;padding:11px 14px;font-weight:700;font-size:14px;width:100%;margin-top:8px;box-shadow:0 3px 10px rgba(240,98,143,0.35);}
+.btn.secondary{background:var(--card2);color:var(--accent);box-shadow:none;}
 .food-item{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--card2);font-size:14px;}
 .food-item:last-child{border-bottom:none;}
 .food-item .meta{color:var(--sub);font-size:12px;}
 .add-food{display:flex;gap:6px;margin-top:10px;}
 .add-food input{flex:1;background:var(--card2);border:none;border-radius:8px;color:var(--text);padding:8px;font-size:13px;}
 .add-food input.small{flex:0 0 50px;}
-.nav{position:fixed;bottom:0;left:0;right:0;background:var(--card);display:flex;padding:8px 10px max(8px,env(safe-area-inset-bottom));border-top:1px solid var(--card2);z-index:10;}
-.nav button{flex:1;background:none;border:none;color:var(--sub);font-size:11px;padding:6px 0;font-weight:600;}
+.nav{position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;padding:8px 10px max(8px,env(safe-area-inset-bottom));border-top:1px solid var(--card2);z-index:10;}
+.nav button{flex:1;background:none;border:none;color:var(--sub);font-size:11px;padding:6px 0;font-weight:700;}
 .nav button.active{color:var(--accent);}
 .weight-input{display:flex;gap:8px;margin-top:8px;}
 .weight-input input{flex:1;background:var(--card2);border:none;border-radius:8px;color:var(--text);padding:10px;font-size:14px;}
@@ -66,10 +68,10 @@ select{background:var(--card2);color:var(--text);border:none;border-radius:8px;p
 .set-row{display:flex;align-items:center;gap:6px;padding:7px 0;border-top:1px solid var(--card2);}
 .set-label{width:46px;font-size:12px;color:var(--sub);flex:0 0 46px;}
 .set-row input{width:50px;background:var(--card2);border:none;border-radius:6px;color:var(--text);padding:6px;font-size:13px;text-align:center;}
-.rest-btn{background:var(--card2);color:var(--accent2);border:none;border-radius:8px;padding:6px 8px;font-size:11px;font-weight:600;white-space:nowrap;}
-.rest-bar{position:fixed;left:12px;right:12px;bottom:74px;background:var(--accent);color:#fff;border-radius:12px;padding:12px 16px;display:none;align-items:center;justify-content:space-between;font-weight:600;z-index:20;box-shadow:0 4px 14px rgba(0,0,0,0.4);}
-.rest-time{font-size:20px;font-weight:700;}
-.rest-cancel{background:rgba(255,255,255,0.2);color:#fff;border:none;border-radius:8px;padding:6px 12px;font-size:12px;font-weight:600;}
+.rest-btn{background:var(--card2);color:#a85d9e;border:none;border-radius:10px;padding:6px 8px;font-size:11px;font-weight:700;white-space:nowrap;}
+.rest-bar{position:fixed;left:12px;right:12px;bottom:74px;background:linear-gradient(135deg,#f0628f,#c9a6e8);color:#fff;border-radius:16px;padding:12px 16px;display:none;align-items:center;justify-content:space-between;font-weight:700;z-index:20;box-shadow:0 4px 14px rgba(240,98,143,0.4);}
+.rest-time{font-size:20px;font-weight:800;}
+.rest-cancel{background:rgba(255,255,255,0.25);color:#fff;border:none;border-radius:10px;padding:6px 12px;font-size:12px;font-weight:700;}
 </style>
 </head>
 <body>
@@ -223,6 +225,36 @@ function todayKey(){ return 'log_' + new Date().toISOString().slice(0,10); }
 function load(key, fallback){ try{ return JSON.parse(localStorage.getItem(key)) || fallback; }catch(e){ return fallback; } }
 function save(key, val){ localStorage.setItem(key, JSON.stringify(val)); }
 
+function findLastSession(exIndex){
+  const today = todayKey();
+  const suffix = '_workout_' + currentDay;
+  const dates = [];
+  for(let k=0; k<localStorage.length; k++){
+    const key = localStorage.key(k);
+    if(key && key.endsWith(suffix) && key.startsWith('log_') && key !== today + suffix){
+      const datePart = key.slice(4, 14);
+      dates.push(datePart);
+    }
+  }
+  dates.sort().reverse();
+  for(const d of dates){
+    const logged = load('log_' + d + '_workout_' + currentDay, {});
+    const entry = logged[exIndex];
+    if(entry && entry.sets && entry.sets.some(s=>s.w)){
+      return {date: d, sets: entry.sets};
+    }
+  }
+  return null;
+}
+function formatLastSession(session){
+  if(!session) return '';
+  const parts = session.sets.filter(s=>s.w).map(s=> `${s.w}${s.r?'x'+s.r:''}`);
+  if(!parts.length) return '';
+  const d = new Date(session.date + 'T00:00:00');
+  const md = `${d.getMonth()+1}/${d.getDate()}`;
+  return `Last (${md}): ${parts.join(', ')} lb`;
+}
+
 function showSection(id){
   document.querySelectorAll('section').forEach(s=>s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
@@ -281,9 +313,11 @@ function renderWorkout(){
       `;
     }
 
+    const lastText = formatLastSession(findLastSession(i));
     div.innerHTML = `
       <div class="name">${ex.name}</div>
       <div class="target">${ex.sets} x ${ex.reps}</div>
+      ${lastText ? `<div class="lasttime">${lastText}</div>` : ''}
       ${setsHtml}
     `;
     list.appendChild(div);
