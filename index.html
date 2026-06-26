@@ -104,13 +104,13 @@ select{background:var(--card2);color:var(--text);border:none;border-radius:8px;p
 <section id="nutrition">
   <div class="card">
     <h2>Today's Targets</h2>
-    <div class="macro-row"><span class="macro-name">Calories</span><span class="macro-val" id="calVal">0 / 1750</span></div>
+    <div class="macro-row"><span class="macro-name">Calories</span><span class="macro-val" id="calVal">0 / 1450</span></div>
     <div class="bar"><div id="calBar" style="width:0%;background:var(--accent);"></div></div>
     <div class="macro-row" style="margin-top:14px;"><span class="macro-name">Protein</span><span class="macro-val" id="proVal">0g / 150g</span></div>
     <div class="bar"><div id="proBar" style="width:0%;background:var(--good);"></div></div>
-    <div class="macro-row"><span class="macro-name">Fat</span><span class="macro-val" id="fatVal">0g / 55g</span></div>
+    <div class="macro-row"><span class="macro-name">Fat</span><span class="macro-val" id="fatVal">0g / 40g</span></div>
     <div class="bar"><div id="fatBar" style="width:0%;background:var(--warn);"></div></div>
-    <div class="macro-row"><span class="macro-name">Carbs</span><span class="macro-val" id="carbVal">0g / 165g</span></div>
+    <div class="macro-row"><span class="macro-name">Carbs</span><span class="macro-val" id="carbVal">0g / 120g</span></div>
     <div class="bar"><div id="carbBar" style="width:0%;background:var(--accent2);"></div></div>
   </div>
 
@@ -168,7 +168,7 @@ select{background:var(--card2);color:var(--text);border:none;border-radius:8px;p
 </div>
 
 <script>
-const TARGETS = {cal:1750, pro:150, fat:55, carb:165};
+const TARGETS = {cal:1450, pro:150, fat:40, carb:120};
 const PLAN = [
   {label:"Day 1 — Full Body A (Lower Focus)", ex:[
     {name:"Hack Squat", sets:4, reps:"8-10", rest:120},
@@ -182,16 +182,18 @@ const PLAN = [
   {label:"Day 2 — Cardio & Core", ex:[
     {name:"Stairmaster", reps:"25-35 min, steady pace", cardio:true},
     {name:"Plank", sets:3, reps:"30-45s", rest:45},
-    {name:"Cable Crunch", sets:3, reps:"15", rest:45},
-    {name:"Hanging Knee Raise", sets:3, reps:"12-15", rest:45},
+    {name:"Cable Crunch", sets:3, reps:"15-20", rest:45},
+    {name:"Hanging Knee Raise", sets:3, reps:"15-20", rest:45},
     {name:"Side Plank", sets:3, reps:"30s/side", rest:45},
+    {name:"Mountain Climbers", sets:3, reps:"30s", rest:30},
   ]},
   {label:"Day 3 — Full Body B (Upper Focus)", ex:[
     {name:"Barbell Bench Press", sets:4, reps:"8-10", rest:120},
     {name:"Seated Cable Row", sets:3, reps:"10-12", rest:90},
     {name:"Overhead Press", sets:3, reps:"8-10", rest:105},
     {name:"Lat Pulldown", sets:3, reps:"10-12", rest:75},
-    {name:"DB Biceps Curl", sets:2, reps:"12-15", rest:60},
+    {name:"DB Biceps Curl (light, toning)", sets:3, reps:"15-20", rest:45},
+    {name:"Triceps Rope Pushdown (light, toning)", sets:3, reps:"15-20", rest:45},
     {name:"Goblet Squat", sets:2, reps:"12", rest:75},
     {name:"Stairmaster", reps:"15-20 min, steady pace", cardio:true},
   ]},
@@ -199,7 +201,8 @@ const PLAN = [
     {name:"Treadmill (incline walk or intervals)", reps:"25-35 min", cardio:true},
     {name:"Cable Woodchopper", sets:3, reps:"12/side", rest:45},
     {name:"Plank", sets:3, reps:"30-45s", rest:45},
-    {name:"Bicycle Crunch", sets:3, reps:"20", rest:45},
+    {name:"Bicycle Crunch", sets:3, reps:"20-25", rest:45},
+    {name:"Leg Raises", sets:3, reps:"15-20", rest:30},
   ]},
   {label:"Day 5 — Full Body C (Mixed)", ex:[
     {name:"Deadlift or Trap Bar Deadlift", sets:4, reps:"6-8", rest:150},
@@ -207,14 +210,16 @@ const PLAN = [
     {name:"Hip Thrust", sets:3, reps:"10-12", rest:90},
     {name:"Lat Pulldown", sets:3, reps:"10-12", rest:75},
     {name:"Leg Curl", sets:2, reps:"12-15", rest:60},
-    {name:"Cable Lateral Raise", sets:2, reps:"12-15", rest:60},
+    {name:"Cable Lateral Raise (light, toning)", sets:3, reps:"15-20", rest:45},
+    {name:"Triceps Kickback (light, toning)", sets:3, reps:"15-20", rest:45},
     {name:"Elliptical", reps:"15-20 min, steady pace", cardio:true},
   ]},
   {label:"Day 6 — Cardio & Core", ex:[
     {name:"Elliptical", reps:"25-35 min", cardio:true},
     {name:"Plank", sets:3, reps:"30-45s", rest:45},
-    {name:"Russian Twist", sets:3, reps:"20", rest:45},
+    {name:"Russian Twist", sets:3, reps:"20-25", rest:45},
     {name:"Dead Bug", sets:3, reps:"12/side", rest:45},
+    {name:"Flutter Kicks", sets:3, reps:"30s", rest:30},
   ]},
   {label:"Day 7 — Rest", ex:[
     {name:"Full rest day", reps:"Recovery", cardio:true},
