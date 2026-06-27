@@ -34,6 +34,8 @@ section.active{display:block;}
 .bar > div{height:100%;border-radius:5px;}
 .big-num{font-size:34px;font-weight:700;}
 .row{display:flex;justify-content:space-between;align-items:baseline;}
+.motivation-card{background:linear-gradient(135deg,#f0628f,#c9a6e8);padding:18px 16px;text-align:center;}
+.motivation-text{color:#fff;font-size:15px;font-weight:700;line-height:1.4;font-style:italic;}
 .day-pill{display:inline-block;padding:5px 12px;border-radius:20px;background:linear-gradient(135deg,#f0628f,#c9a6e8);font-size:12px;color:#fff;margin-bottom:8px;font-weight:700;}
 .exercise{padding:12px 0;border-bottom:1px solid var(--card2);}
 .exercise:last-child{border-bottom:none;}
@@ -82,6 +84,9 @@ select{background:var(--card2);color:var(--text);border:none;border-radius:8px;p
 </header>
 
 <section id="today" class="active">
+  <div class="card motivation-card" id="motivationCard">
+    <div id="motivationText" class="motivation-text"></div>
+  </div>
   <div class="card">
     <div class="row">
       <div>
@@ -229,6 +234,29 @@ const PLAN = [
 function todayKey(){ return 'log_' + new Date().toISOString().slice(0,10); }
 function load(key, fallback){ try{ return JSON.parse(localStorage.getItem(key)) || fallback; }catch(e){ return fallback; } }
 function save(key, val){ localStorage.setItem(key, JSON.stringify(val)); }
+
+const QUOTES = [
+  "You didn't come this far to only come this far.",
+  "Discipline is choosing what you want most over what you want now.",
+  "Showing up tired beats not showing up at all.",
+  "Your body can stand almost anything. It's your mind you have to convince.",
+  "Every rep today is a deposit into the body you're building.",
+  "The cut doesn't care how you feel today. Show up anyway.",
+  "Progress isn't loud. It's just showing up when no one's clapping.",
+  "You're not behind. You're exactly on time for your own timeline.",
+  "Hard days build the body easy days never could.",
+  "Consistency beats intensity. Just don't miss today.",
+  "You've survived 100% of your hardest sets so far.",
+  "Future you is already thanking you for not skipping this.",
+  "Nobody regrets the workout they finished.",
+  "Small, boring, repeated effort wins. Every time.",
+  "You're allowed to be tired. You're not allowed to quit.",
+];
+function renderMotivation(){
+  const dayNum = Math.floor(Date.now() / 86400000);
+  const quote = QUOTES[dayNum % QUOTES.length];
+  document.getElementById('motivationText').textContent = quote;
+}
 
 function findLastSession(exIndex){
   const today = todayKey();
@@ -468,6 +496,7 @@ setDay(currentDay);
 renderWorkout();
 renderNutrition();
 renderProgress();
+renderMotivation();
 
 if('serviceWorker' in navigator){
   navigator.serviceWorker.register('sw.js').catch(()=>{});
