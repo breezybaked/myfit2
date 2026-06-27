@@ -50,6 +50,11 @@ section.active{display:block;}
 .food-item{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--card2);font-size:14px;}
 .food-item:last-child{border-bottom:none;}
 .food-item .meta{color:var(--sub);font-size:12px;}
+.quick-meal{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--card2);gap:10px;}
+.quick-meal:last-child{border-bottom:none;}
+.quick-meal .qname{font-weight:700;font-size:14px;color:var(--text);}
+.quick-meal .qmeta{color:var(--sub);font-size:11.5px;margin-top:2px;}
+.quick-meal.checked .qname{color:var(--good);text-decoration:line-through;}
 .add-food{display:flex;gap:6px;margin-top:10px;}
 .add-food input{flex:1;background:var(--card2);border:none;border-radius:8px;color:var(--text);padding:8px;font-size:13px;}
 .add-food input.small{flex:0 0 50px;}
@@ -117,6 +122,11 @@ select{background:var(--card2);color:var(--text);border:none;border-radius:8px;p
     <div class="bar"><div id="fatBar" style="width:0%;background:var(--warn);"></div></div>
     <div class="macro-row"><span class="macro-name">Carbs</span><span class="macro-val" id="carbVal">0g / 120g</span></div>
     <div class="bar"><div id="carbBar" style="width:0%;background:var(--accent2);"></div></div>
+  </div>
+
+  <div class="card">
+    <h2>My Meals</h2>
+    <div id="quickMealList"></div>
   </div>
 
   <div class="card">
@@ -234,6 +244,48 @@ const PLAN = [
 function todayKey(){ return 'log_' + new Date().toISOString().slice(0,10); }
 function load(key, fallback){ try{ return JSON.parse(localStorage.getItem(key)) || fallback; }catch(e){ return fallback; } }
 function save(key, val){ localStorage.setItem(key, JSON.stringify(val)); }
+
+const QUICK_MEALS = [
+  {id:"pancakes", name:"Premier Protein Pancakes", cal:220, pro:30, fat:3, carb:19},
+  {id:"pb", name:"Peanut Butter (1 tbsp)", cal:95, pro:3.5, fat:8, carb:3},
+  {id:"oikos", name:"Oikos Yogurt", cal:100, pro:15, fat:0, carb:11},
+  {id:"berries", name:"Berries", cal:30, pro:0.5, fat:0, carb:7},
+  {id:"almonds", name:"Almonds (0.7oz)", cal:115, pro:4, fat:10, carb:4},
+  {id:"beef", name:"Ground Beef (3oz, lean)", cal:150, pro:23, fat:7, carb:0},
+  {id:"peppers", name:"Bell Peppers", cal:30, pro:1, fat:0, carb:7},
+  {id:"chicken5", name:"Grilled Chicken (5oz)", cal:235, pro:44, fat:5, carb:0},
+  {id:"rice34", name:"Rice (3/4 cup)", cal:195, pro:4, fat:0, carb:42},
+  {id:"chicken4", name:"Grilled Chicken (4oz)", cal:188, pro:35, fat:4, carb:0},
+  {id:"rice12", name:"Rice (1/2 cup)", cal:130, pro:2.7, fat:0, carb:28},
+];
+
+function renderQuickMeals(){
+  const key = todayKey()+'_quickmeals';
+  const checked = load(key, {});
+  const list = document.getElementById('quickMealList');
+  list.innerHTML = '';
+  QUICK_MEALS.forEach(m=>{
+    const isChecked = !!checked[m.id];
+    const div = document.createElement('div');
+    div.className = 'quick-meal' + (isChecked?' checked':'');
+    div.innerHTML = `
+      <div>
+        <div class="qname">${m.name}</div>
+        <div class="qmeta">${m.cal} kcal · P${m.pro} F${m.fat} C${m.carb}</div>
+      </div>
+      <div class="checkmark ${isChecked?'done':''}" onclick="toggleQuickMeal('${m.id}')">${isChecked?'✓':''}</div>
+    `;
+    list.appendChild(div);
+  });
+}
+function toggleQuickMeal(id){
+  const key = todayKey()+'_quickmeals';
+  const checked = load(key, {});
+  checked[id] = !checked[id];
+  save(key, checked);
+  renderQuickMeals();
+  renderNutrition();
+}
 
 const QUOTES = [
   "You didn't come this far to only come this far.",
@@ -432,6 +484,10 @@ function renderNutrition(){
   const log = load(todayKey()+'_food', []);
   let cal=0,pro=0,fat=0,carb=0;
   log.forEach(f=>{ cal+=+f.cal; pro+=+f.pro; fat+=+f.fat; carb+=+f.carb; });
+  const checkedMeals = load(todayKey()+'_quickmeals', {});
+  QUICK_MEALS.forEach(m=>{
+    if(checkedMeals[m.id]){ cal+=m.cal; pro+=m.pro; fat+=m.fat; carb+=m.carb; }
+  });
   document.getElementById('calVal').textContent = `${cal} / ${TARGETS.cal}`;
   document.getElementById('calBar').style.width = Math.min(100, cal/TARGETS.cal*100)+'%';
   document.getElementById('proVal').textContent = `${pro}g / ${TARGETS.pro}g`;
@@ -494,6 +550,7 @@ function logWeight(){
 
 setDay(currentDay);
 renderWorkout();
+renderQuickMeals();
 renderNutrition();
 renderProgress();
 renderMotivation();
