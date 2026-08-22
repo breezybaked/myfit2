@@ -1,4 +1,4 @@
-const CACHE = 'myfit-v14';
+const CACHE = 'myfit-v15';
 const ASSETS = ['./index.html', './manifest.json'];
 
 self.addEventListener('install', e=>{
