@@ -53,7 +53,7 @@ select{background:var(--card2);color:var(--text);border:none;border-radius:8px;p
 <select id="daySelect" onchange="setDay(this.value)" style="width:auto;margin:0;">
 <option value="0">Day 1 - Lower A</option><option value="1">Day 2 - Upper A</option>
 <option value="2">Day 3 - Lower B</option><option value="3">Day 4 - Upper B</option>
-<option value="4">Day 5 - Full Body</option><option value="5">Day 6 - Rest</option><option value="6">Day 7 - Rest</option>
+<option value="4">Day 5 - Lower C</option><option value="5">Day 6 - Rest</option><option value="6">Day 7 - Rest</option>
 </select></div>
 <div id="exerciseList"></div></div>
 <div class="card"><h2>Steps Today</h2>
@@ -127,47 +127,42 @@ select{background:var(--card2);color:var(--text);border:none;border-radius:8px;p
 var T={cal:1200,pro:150,fat:30,carb:120};
 var PLAN=[
 {label:"Day 1 - Lower A",ex:[
-{name:"Hack Squat",sets:4,reps:"8-10",rest:120},
-{name:"Romanian Deadlift",sets:3,reps:"10-12",rest:105},
-{name:"Leg Press",sets:3,reps:"10-12",rest:90},
-{name:"Walking Lunge",sets:3,reps:"12/leg",rest:75},
-{name:"Leg Curl",sets:3,reps:"12-15",rest:60},
-{name:"Standing Calf Raise",sets:3,reps:"12-15",rest:60},
-{name:"Stairmaster",reps:"15-20 min",cardio:true}]},
+{name:"Hamstring Curl",sets:4,reps:"12-15",rest:60},
+{name:"Hip Thrust",sets:4,reps:"15 (3 sec hold)",rest:90},
+{name:"Smith Machine Glute Focus Squat",sets:4,reps:"8-10",rest:90},
+{name:"Good Mornings",sets:4,reps:"10-12",rest:75},
+{name:"Banded SS Bridge Abductors",sets:4,reps:"12-15",rest:60},
+{name:"Treadmill",reps:"30 min @ 120 HR",cardio:true}]},
 {label:"Day 2 - Upper A",ex:[
-{name:"Barbell Bench Press",sets:4,reps:"8-10",rest:120},
-{name:"Seated Cable Row",sets:3,reps:"10-12",rest:90},
-{name:"Overhead Press",sets:3,reps:"8-10",rest:105},
-{name:"Lat Pulldown",sets:3,reps:"10-12",rest:75},
-{name:"DB Biceps Curl",sets:3,reps:"15-20",rest:45},
-{name:"Triceps Rope Pushdown",sets:3,reps:"15-20",rest:45},
-{name:"Treadmill Incline Walk",reps:"15-20 min",cardio:true}]},
+{name:"MAG Medium Bar Lat Pulldown",sets:4,reps:"10-12",rest:90},
+{name:"MAG Small Bar Lat Pulldown",sets:4,reps:"8-10",rest:75},
+{name:"Epic Machine Press",sets:4,reps:"10-12",rest:90},
+{name:"DB Seated Shoulder Lateral Raise",sets:4,reps:"12",rest:60},
+{name:"DB Seated Bicep Curls",sets:4,reps:"10",rest:60},
+{name:"Cable Tricep Extension",sets:4,reps:"12",rest:60},
+{name:"Treadmill",reps:"30 min @ 120 HR",cardio:true}]},
 {label:"Day 3 - Lower B",ex:[
-{name:"Deadlift",sets:4,reps:"6-8",rest:150},
-{name:"Hip Thrust",sets:4,reps:"10-12",rest:90},
-{name:"Leg Press",sets:3,reps:"12-15",rest:90},
-{name:"Leg Curl",sets:3,reps:"12-15",rest:60},
-{name:"Bulgarian Split Squat",sets:3,reps:"10/leg",rest:90},
-{name:"Standing Calf Raise",sets:3,reps:"12-15",rest:60},
-{name:"Elliptical",reps:"15-20 min",cardio:true}]},
+{name:"Smith Machine Quad Focus Squat",sets:4,reps:"10-12",rest:90},
+{name:"Bulgarian Split Squat Quad Focus",sets:4,reps:"10/leg",rest:90},
+{name:"Leg Press",sets:4,reps:"12-20",rest:90},
+{name:"Adductors",sets:4,reps:"15",rest:60},
+{name:"Leg Extension",sets:4,reps:"15",rest:60},
+{name:"Treadmill",reps:"30 min @ 120 HR",cardio:true}]},
 {label:"Day 4 - Upper B",ex:[
-{name:"Incline DB Press",sets:4,reps:"10-12",rest:90},
-{name:"Cable Row",sets:3,reps:"10-12",rest:90},
-{name:"Lat Pulldown",sets:3,reps:"10-12",rest:75},
-{name:"DB Lateral Raise",sets:3,reps:"15-20",rest:45},
-{name:"Face Pull",sets:3,reps:"15-20",rest:45},
-{name:"DB Biceps Curl",sets:3,reps:"15-20",rest:45},
-{name:"Triceps Kickback",sets:3,reps:"15-20",rest:45},
-{name:"Stairmaster",reps:"15-20 min",cardio:true}]},
-{label:"Day 5 - Full Body",ex:[
-{name:"Hack Squat",sets:3,reps:"10-12",rest:90},
-{name:"Hip Thrust",sets:3,reps:"10-12",rest:90},
-{name:"Barbell Bench Press",sets:3,reps:"10-12",rest:90},
-{name:"Seated Cable Row",sets:3,reps:"10-12",rest:90},
-{name:"Overhead Press",sets:3,reps:"10-12",rest:75},
-{name:"Cable Crunch",sets:3,reps:"15-20",rest:45},
-{name:"Plank",sets:3,reps:"30-45s",rest:45},
-{name:"Elliptical",reps:"15-20 min",cardio:true}]},
+{name:"Epic Machine Mid Row",sets:4,reps:"10-12",rest:90},
+{name:"Smith Machine Shoulder Press",sets:4,reps:"10-12",rest:90},
+{name:"DB Side Lateral + Front Lateral",sets:4,reps:"10",rest:60},
+{name:"Prime Machine Incline Press",sets:4,reps:"10",rest:90},
+{name:"Epic Machine Curls",sets:4,reps:"10-12",rest:60},
+{name:"Epic Machine Extension",sets:4,reps:"12-15",rest:60},
+{name:"Treadmill",reps:"30 min @ 120 HR",cardio:true}]},
+{label:"Day 5 - Lower C",ex:[
+{name:"Laying Hamstring Curl",sets:4,reps:"12-15",rest:60},
+{name:"Glute Focus Hip Press",sets:4,reps:"12",rest:90},
+{name:"Hack Squat",sets:4,reps:"6-10",rest:90},
+{name:"Leg Extensions",sets:4,reps:"12-15",rest:60},
+{name:"Bulgarian Split Squat Glute Focus",sets:4,reps:"10/leg",rest:90},
+{name:"Treadmill",reps:"30 min @ 120 HR",cardio:true}]},
 {label:"Day 6 - Rest",ex:[{name:"Full rest day",reps:"Recovery",cardio:true}]},
 {label:"Day 7 - Rest",ex:[{name:"Full rest day",reps:"Recovery",cardio:true}]}
 ];
