@@ -110,6 +110,7 @@ select{background:var(--card2);color:var(--text);border:none;border-radius:8px;p
 <div class="legend-item"><div class="legend-dot" style="background:#c9a6e8;"></div>Muscle</div>
 <div class="legend-item"><div class="legend-dot" style="background:#e05a5a;"></div>Body Fat %</div></div>
 <p style="font-size:11px;color:var(--sub);margin:10px 0 0;text-align:center;">Weight is down -- keep training, muscle follows!</p></div>
+<div class="card"><h2>Step History</h2><div id="stepHistory" style="margin-top:4px;"></div></div>
 <div class="card"><h2>Log Body Weight</h2>
 <div class="weight-input"><input id="weightInput" type="number" step="0.1" placeholder="Weight (lb)"><button class="btn" style="width:auto;margin:0;" onclick="logWeight()">Log</button></div>
 <div id="weightHistory" style="margin-top:12px;"></div></div>
@@ -175,13 +176,35 @@ function renderSteps(){
   document.getElementById("stepCount").textContent=s.toLocaleString();
   document.getElementById("stepLabel").textContent=s>=10000?"Goal reached! Great job!":(10000-s).toLocaleString()+" steps to go";
 }
-function resetSteps(){save(tKey()+"_steps",0);renderSteps();}
+function renderStepHistory(){
+  var d=document.getElementById("stepHistory");if(!d)return;
+  var entries=[];
+  for(var k=0;k<localStorage.length;k++){
+    var key=localStorage.key(k);
+    if(!key)continue;
+    var m=key.match(/^log_(\d{4}-\d{2}-\d{2})_steps$/);
+    if(!m)continue;
+    entries.push({date:m[1],steps:load(key,0)});
+  }
+  entries.sort(function(a,b){return b.date.localeCompare(a.date);});
+  d.innerHTML="";
+  if(!entries.length){d.innerHTML="<p style='color:var(--sub);font-size:13px;'>No step history yet.</p>";return;}
+  entries.forEach(function(x){
+    var r=document.createElement("div");r.className="history-row";
+    var dt=new Date(x.date+"T00:00:00");
+    var label=(dt.getMonth()+1)+"/"+dt.getDate()+"/"+dt.getFullYear();
+    var pct=Math.min(100,Math.round(x.steps/10000*100));
+    r.innerHTML="<span>"+label+"</span><span style='color:"+(x.steps>=10000?"var(--good)":"var(--text)")+"'>"+x.steps.toLocaleString()+" steps ("+pct+"%)</span>";
+    d.appendChild(r);
+  });
+}
+function resetSteps(){save(tKey()+"_steps",0);renderSteps();renderStepHistory();}
 function logSteps(){
   var v=parseInt(document.getElementById("stepInput").value)||0;
   if(!v)return;
   save(tKey()+"_steps",load(tKey()+"_steps",0)+v);
   document.getElementById("stepInput").value="";
-  renderSteps();
+  renderSteps();renderStepHistory();
 }
 var QM=[
   {id:"pancakes",name:"Premier Protein Pancakes",cal:220,pro:30,fat:3,carb:19},
@@ -386,7 +409,7 @@ function logWeight(){
   var h=load("weightHistory",[]);h.push({date:new Date().toISOString().slice(0,10),weight:v});
   save("weightHistory",h);document.getElementById("weightInput").value="";renderProgress();
 }
-setDay(curDay);renderWorkout();renderQM();renderNutrition();renderProgress();renderMotivation();renderSteps();
+setDay(curDay);renderWorkout();renderQM();renderNutrition();renderProgress();renderMotivation();renderSteps();renderStepHistory();
 (function(){var e=load("restEnd",0);if(e&&e>Date.now()){document.getElementById("restBar").style.display="flex";tickRest();ri=setInterval(tickRest,500);}})();
 if("serviceWorker"in navigator)navigator.serviceWorker.register("sw.js").catch(function(){});
 </script></body></html>
